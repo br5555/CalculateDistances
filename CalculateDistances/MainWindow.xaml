@@ -45,7 +45,7 @@
                 <ComboBoxItem>Ym</ComboBoxItem>
             </ComboBox>
         </StackPanel>
-        
-        <Label x:Name="Result" Grid.Row="2" Grid.Column="0" FontSize="16" VerticalAlignment="Center"></Label>
+
+        <Label x:Name="Result" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" FontSize="16" VerticalAlignment="Center"></Label>
     </Grid>
 </Window>

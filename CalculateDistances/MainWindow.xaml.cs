@@ -62,11 +62,11 @@ namespace CalculateDistances
         /// </summary>
         /// <param name="numberAndUnit"></param>
         /// <returns>number</returns>
-        private double ExtractNumber(string numberAndUnit)
+        private decimal ExtractNumber(string numberAndUnit)
         {
             string[] stringWithUnit = Regex.Split(numberAndUnit, "[a-zA-z]+");
             //On first place is number string on second is empty string
-            return Double.Parse(stringWithUnit[0]);
+            return Decimal.Parse(stringWithUnit[0]);
         }
 
         /// <summary>
@@ -74,11 +74,11 @@ namespace CalculateDistances
         /// </summary>
         /// <param name="numberAndUnit">number and unit as string</param>
         /// <returns>unit in relevance to meter unit</returns>
-        private double ExtractUnit(string numberAndUnit)
+        private decimal ExtractUnit(string numberAndUnit)
         {
             string[] stringWithUnit = Regex.Split(numberAndUnit, "[0-9]+");
             //On first place is empty string on second is unit
-            return mappingFromUnitsToValues[stringWithUnit[1]];
+            return (decimal)mappingFromUnitsToValues[stringWithUnit[1]];
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace CalculateDistances
 
             ComboBoxItem  comboItem= this.ResultUnit.SelectedItem as ComboBoxItem;
             string resultUnit = comboItem.Content.ToString();
-            Result.Content = $"Result is {result / mappingFromUnitsToValues[resultUnit]} {resultUnit}";
+            Result.Content = $"Result is {result / (decimal)mappingFromUnitsToValues[resultUnit]} {resultUnit}";
         }
 
         /// <summary>
