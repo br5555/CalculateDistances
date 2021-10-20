@@ -25,7 +25,7 @@ namespace CalculateDistances
         private readonly Dictionary<string, double> mappingFromUnitsToValues;
         private bool FirstClick = false;
         private const string UserInputPattern =
-            @"^(\s*\d+([.]{0,1}\d+){0,1}\s*(([dcmμnpfazyhkMGTPEZY]{0,1}m)|dam)\s*){1}(\s*[+-]{0,1}\s*\d+([.]{0,1}\d+){0,1}\s*(([dcmμnpfazyhkMGTPEZY]{0,1}m)|dam)\s*)*$";
+            @"^(\s*\d+([.]{0,1}\d+){0,1}\s*([eE][+-]{0,1}\d+){0,1}\s*(([dcmμnpfazyhkMGTPEZY]{0,1}m)|dam)\s*){1}(\s*[+-]{0,1}\s*\d+([.]{0,1}\d+){0,1}\s*([eE][+-]{0,1}\d+){0,1}\s*(([dcmμnpfazyhkMGTPEZY]{0,1}m)|dam)\s*)*$";
         public MainWindow()
         {
             InputCheck = new Regex(UserInputPattern);
@@ -64,9 +64,8 @@ namespace CalculateDistances
         /// <returns>number</returns>
         private decimal ExtractNumber(string numberAndUnit)
         {
-            string[] stringWithUnit = Regex.Split(numberAndUnit, "[a-zA-z]+");
-            //On first place is number string on second is empty string
-            return Decimal.Parse(stringWithUnit[0]);
+            string stringWithUnit = Regex.Replace(numberAndUnit, @"(([dcmμnpfazyhkMGTPEZY]{0,1}m)|dam){0,1}", "");
+            return (decimal)Double.Parse(stringWithUnit);
         }
 
         /// <summary>
@@ -77,8 +76,7 @@ namespace CalculateDistances
         private decimal ExtractUnit(string numberAndUnit)
         {
             string[] stringWithUnit = Regex.Split(numberAndUnit, "[0-9]+");
-            //On first place is empty string on second is unit
-            return (decimal)mappingFromUnitsToValues[stringWithUnit[1]];
+            return (decimal)mappingFromUnitsToValues[stringWithUnit[stringWithUnit.Length - 1]];
         }
 
         /// <summary>
@@ -88,7 +86,13 @@ namespace CalculateDistances
         private void CalculateResult(string inputString)
         {
             var usersInput = inputString.Replace(" ", "");
-            var splitNumbers = usersInput.Split(new char[] { '+', '-' });
+            var splitNumbers = usersInput.Split(new string[] { "m+", "m-" }, StringSplitOptions.None);
+
+            for (int i = 0; i < splitNumbers.Length-1; i++)
+            {
+                splitNumbers[i] = splitNumbers[i] + "m";
+            }
+
             var result = this.ExtractNumber(splitNumbers[0]) * ExtractUnit(splitNumbers[0]);
             int currentLength = splitNumbers[0].Length;
 
