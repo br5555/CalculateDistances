@@ -25,7 +25,7 @@ namespace CalculateDistances
         private readonly Dictionary<string, double> mappingFromUnitsToValues;
         private bool FirstClick = false;
         private const string UserInputPattern =
-            @"^(\s*\d+([.]{0,1}\d+){0,1}\s*([eE][+-]{0,1}\d+){0,1}\s*(([dcmμnpfazyhkMGTPEZY]{0,1}m)|dam)\s*){1}(\s*[+-]{0,1}\s*\d+([.]{0,1}\d+){0,1}\s*([eE][+-]{0,1}\d+){0,1}\s*(([dcmμnpfazyhkMGTPEZY]{0,1}m)|dam)\s*)*$";
+            @"^(\s*\d+([.]{0,1}\d+){0,1}\s*([eE]\s*[+-]{0,1}\s*\d+){0,1}\s*(([dcmμnpfazyhkMGTPEZY]{0,1}m)|dam)\s*){1}(\s*[+-]{0,1}\s*\d+([.]{0,1}\d+){0,1}\s*([eE]\s*[+-]{0,1}\s*\d+){0,1}\s*(([dcmμnpfazyhkMGTPEZY]{0,1}m)|dam)\s*)*$";
         public MainWindow()
         {
             InputCheck = new Regex(UserInputPattern);
